@@ -71,18 +71,16 @@ const overrides: MetadataFetcher = async ({defaults, props}) => {
 
 const generateMetadata = createMetadata(overrides)
 
-const generateStaticParams = async (): Promise<Params[]> => {
+export async function generateStaticParams() {
   const events = await request<EventsQuery>({
     query: EVENTS_QUERY
   })
 
   return events.allEvents.map(e => {
     const path = datedSlug(e)
-    return new Promise<{slug: string}>(resolve => {
-      resolve({slug: path})
-    })
+    return {slug: path}
   })
 }
 
-export {generateMetadata, generateStaticParams}
+export {generateMetadata}
 export default Page
