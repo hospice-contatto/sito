@@ -55,7 +55,7 @@ URLs are in Italian and map directly onto `app/` directories:
 | `/diario[/:page]`            | `app/diario/…`                           | Diary entries, paginated     |
 | `/approfondimenti[/:detail]` | `app/approfondimenti/…`                  | In-depth articles            |
 
-`app/layout.tsx` wraps every page with `Nav`, `Footer` and Vercel Analytics.
+`app/layout.tsx` wraps every page with `Nav` and `Footer`.
 
 ### Dynamic routes and static generation
 

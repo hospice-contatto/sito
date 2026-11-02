@@ -1,5 +1,4 @@
 import localFont from 'next/font/local'
-import {Analytics} from '@vercel/analytics/next'
 
 import './globals.sass'
 import Footer from '@components/Footer'
@@ -15,7 +14,6 @@ const RootLayout = ({children}) => (
       <Nav />
       {children}
       <Footer />
-      <Analytics />
     </body>
   </html>
 )
