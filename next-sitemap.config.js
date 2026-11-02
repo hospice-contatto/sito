@@ -10,6 +10,8 @@ const NEXT_SSG_FILES = [
 
 const config = {
   siteUrl: SITE_URL,
+  // Write into the static export, not public/, which is copied before this runs
+  outDir: 'out',
   generateRobotsTxt: true,
   robotsTxtOptions: {
     policies: [
