@@ -2,9 +2,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Architecture
 
-The directory `app` contains the NextJS code.
-
-The site's content is fetched from DatoCMS using GraphQL queries.
+This is a Next.js site, statically exported, with content from DatoCMS.
+See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
 
 ## Setup
 
@@ -35,4 +34,4 @@ yarn test
 
 ## Deployment
 
-This site is deployed on Vercel.
+This site is built and hosted by [statichost.eu](https://www.statichost.eu/).
