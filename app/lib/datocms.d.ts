@@ -14,6 +14,16 @@ export type request = <T>({
   excludeInvalid?: boolean
 }) => Promise<T>
 
+export type requestAll = <T>({
+  query,
+  key,
+  variables
+}: {
+  query: string
+  key: string
+  variables?: Variables
+}) => Promise<T[]>
+
 export type Image = {
   alt: string
   src: string

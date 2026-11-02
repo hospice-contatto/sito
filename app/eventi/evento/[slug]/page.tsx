@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Body from '@components/Body'
 import Main from '@components/Main'
 import Title from '@components/Title'
-import {parseDate, request} from '@lib/datocms'
+import {parseDate, request, requestAll} from '@lib/datocms'
 import {datedSlug, datedSlugToSlug} from '@lib/event'
 import {eventRecordLinkFragment, eventFragment} from '@schema/event'
 import {type Event, type EventRecordLink} from '@schema/event.d'
@@ -13,9 +13,11 @@ import {type MetadataFetcher} from '@schema/info.d'
 import {toOpenGraphImage} from '@lib/responsiveImage'
 import styles from './page.module.sass'
 
-type EventsQuery = {allEvents: EventRecordLink[]}
-
-const EVENTS_QUERY = `query { allEvents ${eventRecordLinkFragment} }`
+const EVENTS_QUERY = `
+query AllEvents($first: IntType!, $skip: IntType!) {
+  allEvents(first: $first, skip: $skip) ${eventRecordLinkFragment}
+}
+`
 
 type EventQuery = {event: Event}
 
@@ -72,11 +74,12 @@ const overrides: MetadataFetcher = async ({defaults, props}) => {
 const generateMetadata = createMetadata(overrides)
 
 export async function generateStaticParams() {
-  const events = await request<EventsQuery>({
-    query: EVENTS_QUERY
+  const events = await requestAll<EventRecordLink>({
+    query: EVENTS_QUERY,
+    key: 'allEvents'
   })
 
-  return events.allEvents.map(e => {
+  return events.map(e => {
     const path = datedSlug(e)
     return {slug: path}
   })
