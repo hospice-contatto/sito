@@ -1,14 +1,29 @@
-import {metadataFragment} from '@lib/datocms'
+import {isoDate, metadataFragment, request} from '@lib/datocms'
 import {bodyFragment} from '@lib/body'
 import {type EventsMetadataQuery} from '@schema/event.d'
 import {responsiveImageFragment} from '@lib/responsiveImage'
 
 const PAGE_SIZE = 10
 
-const METADATA_QUERY = `query EventMetadata { _allEventsMeta ${metadataFragment} }`
+const pastEventsFilter = '(filter: {date: {lt: $now}})'
+
+const PAST_EVENTS_METADATA_QUERY = `
+query PastEventsMetadata($now: Date!) {
+  _allEventsMeta${pastEventsFilter} ${metadataFragment}
+}
+`
 
 const entryCountToPageCount = (entries: number): number =>
   Math.floor((entries - 1) / PAGE_SIZE) + 1
+
+const pastEventsPageCount = async () => {
+  const now = isoDate(new Date())
+  const query = await request<EventsMetadataQuery>({
+    query: PAST_EVENTS_METADATA_QUERY,
+    variables: {now}
+  })
+  return extractPageCount(query)
+}
 
 const extractPageCount = (query: EventsMetadataQuery) => {
   const entries = query._allEventsMeta.count
@@ -54,5 +69,7 @@ export {
   eventRecordLinkFragment,
   eventFragment,
   eventListFragment,
+  pastEventsFilter,
+  pastEventsPageCount,
   PAGE_SIZE
 }

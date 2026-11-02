@@ -8,7 +8,7 @@ import {isoDate, metadataFragment, request} from '@lib/datocms'
 import {type RecordsMeta} from '@lib/datocms.d'
 import {toOpenGraphImage} from '@lib/responsiveImage'
 import {createMetadata} from '@lib/info'
-import {eventListFragment, extractPageCount, PAGE_SIZE} from '@schema/event'
+import {eventListFragment, extractPageCount, pastEventsFilter, PAGE_SIZE} from '@schema/event'
 
 type PastEventsQuery = {
   allEvents: EventListItem[],
@@ -18,7 +18,7 @@ type PastEventsQuery = {
 const QUERY = `
 query PastEvents($now: Date!, $skip: IntType!, $first: IntType!) {
   allEvents(filter: {date: {lt: $now}}, orderBy: date_DESC, skip: $skip, first: $first) ${eventListFragment}
-  _allEventsMeta ${metadataFragment}
+  _allEventsMeta${pastEventsFilter} ${metadataFragment}
 }
 `
 
